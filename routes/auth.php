@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -35,6 +36,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', [UserController::class, 'index']);//ログイン後直後のルーティング
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -53,4 +55,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+    Route::prefix('users')->group(function(){
+        Route::get('', [UserController::class, 'index'])->name('users.index');
+        Route::get('{id}/show', [UserController::class, 'show'])->name('users.show');
+        Route::get('create', [UserController::class, 'create'])->name('users.create');
+        Route::post('create', [UserController::class, 'store'])->name('users.store');
+        Route::get('{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::post('{id}/edit', [UserController::class, 'update'])->name('users.update');
+        Route::delete('{id}', [UserController::class, 'delete'])->name('users.delete');
+    });          
 });
