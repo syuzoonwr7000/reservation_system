@@ -19,6 +19,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'devloper@email.com',
             'password' => password_hash('12341234', PASSWORD_DEFAULT),
             'role' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         
         User::insert([
@@ -26,6 +28,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => password_hash('12341234', PASSWORD_DEFAULT),
             'role' => 2,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

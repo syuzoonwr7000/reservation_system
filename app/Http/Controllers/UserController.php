@@ -13,6 +13,36 @@ class UserController extends Controller
         return view('users.index',compact('users'));
     }
     
+    public function show($id)
+    {
+        $user = User::getUser($id);
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found.');
+        }
+        
+        return view('users.show', compact('user'));
+    }
+    
+    public function create()
+    {
+        //
+    }
+    
+    public function store()
+    {
+        //
+    }
+    
+    public function edit($id)
+    {
+        //
+    }
+    
+    public function update($id)
+    {
+        //
+    }
+    
     public function delete($id)
     {
         $user = User::getUser($id);
