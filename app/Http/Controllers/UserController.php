@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -25,17 +26,31 @@ class UserController extends Controller
     
     public function create()
     {
-        //
+        return view('users.create');
     }
     
-    public function store()
+    public function store(UserRequest $request)
     {
-        //
+        User::insert([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            'role' => $request['role'],
+            
+        ]);
+
+        //↓後でフラッシュメッセージ追加
+        return redirect()->route('users.index');
     }
     
     public function edit($id)
     {
-        //
+        $user = User::getUser($id);
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found.');
+        }
+        
+        return view('users.edit', compact('user'));
     }
     
     public function update($id)

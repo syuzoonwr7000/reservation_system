@@ -21,5 +21,5 @@
     "admin" : "管理者",
     "user" : "一般ユーザー",
     "User not found." : "ユーザーが見つかりません。",
-    "Are you sure you want to delete this user?" : "本当にこのユーザーを削除しますか？",
+    "Are you sure you want to delete this user?" : "本当にこのユーザーを削除しますか？"
 }
