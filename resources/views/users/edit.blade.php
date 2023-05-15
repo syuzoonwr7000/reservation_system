@@ -81,8 +81,8 @@
                         <div class="form-group mb-5">
                             <label for="role">{{ __('Permission') }}</label>
                             <select id="role" class="form-control" name="role" value="{{ old('role') }}" required autofocus>
-                                <option value="3" @if(old('role',$user->role) == 4) selected @endif>{{ __('user') }}</option>
-                                <option value="2" @if(old('role',$user->role) == 3) selected @endif>{{ __('admin') }}</option>
+                                <option value="3" @if(old('role',$user->role) == 3) selected @endif>{{ __('user') }}</option>
+                                <option value="2" @if(old('role',$user->role) == 2) selected @endif>{{ __('admin') }}</option>
                                 <option value="1" @if(old('role',$user->role) == 1) selected @endif>{{ __('developer') }}</option>
                             </select>
                         </div>

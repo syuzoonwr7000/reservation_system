@@ -39,7 +39,6 @@ class UserController extends Controller
             
         ]);
 
-        //↓後でフラッシュメッセージ追加
         return redirect()->route('users.index');
     }
     
@@ -53,9 +52,17 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
     
-    public function update($id)
+    public function update(UserRequest $request,$id)
     {
-        //
+        $user = User::getUser($id);
+        $user->update([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            'role' => $request['role'],
+        ]);
+            
+        return redirect()->route('users.index');
     }
     
     public function delete($id)
