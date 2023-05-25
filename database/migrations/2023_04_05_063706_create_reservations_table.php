@@ -18,7 +18,7 @@ class CreateReservationsTable extends Migration
             $table->foreignId('user_id');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->boolean('reservable');
+            $table->boolean('reservable')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -45,12 +45,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    
+    //ユーザー一覧
     public static function getAllUsers()
     {
         return  static::paginate(Pagination::PER_PAGE);
     }
     
+    //カレントユーザー
     public static function getUser($id)
     {
         try {
@@ -58,5 +59,11 @@ class User extends Authenticatable
         } catch (ModelNotFoundException $e) {
             return null;
         }
+    }
+    
+    //リレーション
+    public function children_reservations()
+    {
+        return $this->hasMany(Resservation::class);
     }
 }
