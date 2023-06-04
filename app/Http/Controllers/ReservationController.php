@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Http\Requests\ReservationStoreRequest;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -28,17 +30,17 @@ class ReservationController extends Controller
         return view('reservations.create');
     }
     
-    public function store(UserRequest $request)
+    public function store(ReservationStoreRequest $request)
     {
-        User::insert([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'role' => $request['role'],
-            
+        $startDateTime = $request['date'] . ' ' . $request['time'];
+        $endDateTime = Carbon::parse($startDateTime)->addMinutes(90);
+    
+        Reservation::insert([
+            'start_time' => $startDateTime,
+            'end_time' => $endDateTime,
         ]);
-
-        return redirect()->route('users.index');
+    
+        return redirect()->route('reservations.index');
     }
     
     public function edit($id)
