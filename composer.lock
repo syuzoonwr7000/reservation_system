@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a51ed22875b29269c4e514a536ff3c1",
+    "content-hash": "c094e378ed4ae8d200822a6f5cdcbbe0",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1007,22 +1007,22 @@
         },
         {
             "name": "jeroennoten/laravel-adminlte",
-            "version": "v3.8.6",
+            "version": "v3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeroennoten/Laravel-AdminLTE.git",
-                "reference": "6cb6153e875b3bbf085df0edfed25ceb35cbe2d6"
+                "reference": "c241490eb984511d8f968540ec224b05a09f36bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/6cb6153e875b3bbf085df0edfed25ceb35cbe2d6",
-                "reference": "6cb6153e875b3bbf085df0edfed25ceb35cbe2d6",
+                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/c241490eb984511d8f968540ec224b05a09f36bf",
+                "reference": "c241490eb984511d8f968540ec224b05a09f36bf",
                 "shasum": ""
             },
             "require": {
                 "almasaeed2010/adminlte": "3.2.*",
-                "laravel/framework": ">=6.0",
-                "php": ">=7.2.0"
+                "laravel/framework": ">=7.0",
+                "php": ">=7.2.5"
             },
             "require-dev": {
                 "orchestra/testbench": ">=4.0",
@@ -1061,9 +1061,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jeroennoten/Laravel-AdminLTE/issues",
-                "source": "https://github.com/jeroennoten/Laravel-AdminLTE/tree/v3.8.6"
+                "source": "https://github.com/jeroennoten/Laravel-AdminLTE/tree/v3.9.0"
             },
-            "time": "2023-02-03T16:04:05+00:00"
+            "time": "2023-04-04T06:40:56+00:00"
         },
         {
             "name": "laravel/breeze",

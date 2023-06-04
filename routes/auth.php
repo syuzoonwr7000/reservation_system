@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -69,12 +70,12 @@ Route::middleware('auth')->group(function () {
     
     //予約管理
     Route::prefix('reservations')->group(function(){
-        Route::get('', [UserController::class, 'index'])->name('reservations.index');
-        Route::get('{id}/show', [UserController::class, 'show'])->name('reservations.show');
-        Route::get('create', [UserController::class, 'create'])->name('reservations.create');
-        Route::post('create', [UserController::class, 'store'])->name('reservations.store');
-        Route::get('{id}/edit', [UserController::class, 'edit'])->name('reservations.edit');
-        Route::post('{id}/edit', [UserController::class, 'update'])->name('reservations.update');
-        Route::delete('{id}', [UserController::class, 'delete'])->name('reservations.delete');
+        Route::get('', [ReservationController::class, 'index'])->name('reservations.index');
+        Route::get('{id}/show', [ReservationController::class, 'show'])->name('reservations.show');
+        Route::get('create', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::post('create', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::get('{id}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
+        Route::post('{id}/edit', [ReservationController::class, 'update'])->name('reservations.update');
+        Route::delete('{id}', [ReservationController::class, 'delete'])->name('reservations.delete');
     });
 });

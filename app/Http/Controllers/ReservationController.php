@@ -3,28 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
 
 class ReservationController extends Controller
 {
     public function index()
     {
-        $users = User::getAllUsers();
-        return view('users.index',compact('users'));
+        $reservations = Reservation::getAllReservations();
+        return view('reservations.index',compact('reservations'));
     }
     
     public function show($id)
     {
-        $user = User::getUser($id);
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
+        $reservation = Reservation::getReservation($id);
+        if (!$reservation) {
+            return redirect()->route('reservations.index')->with('error', '存在しない予約枠です。');
         }
         
-        return view('users.show', compact('user'));
+        return view('reservations.show', compact('reservation'));
     }
     
     public function create()
     {
-        return view('users.create');
+        return view('reservations.create');
     }
     
     public function store(UserRequest $request)
