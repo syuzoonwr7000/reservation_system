@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>{{ __('予約一覧') }}</h1>
+    <h1>{{ __('予約可能日一覧') }}</h1>
 @stop
 
 @section('content')
@@ -20,33 +20,7 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2">{{ __('予約日') }}</th>
-                                    <th class="px-4 py-2">{{ __('件数') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($reservations as $reservation)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $reservation->start_time }}</td>
-                                    <td class="border px-4 py-2">{{ $reservation->id }}</td>
-                                    <td class="border px-4 py-2">
-                                        <div class="flex items-center justify-end mt-4 mb-4">
-                                            <a href="{{ route('reservations.show', $reservation->id) }}"><button class="btn btn-outline-primary  font-bold py-2 px-4 rounded ml-4">{{ __('Information') }}</button></a>
-                                            <a href="{{ route('reservations.edit', $reservation->id) }}"><button class="btn btn-outline-success font-bold py-2 px-4 rounded ml-4">{{ __('編集') }}</button></a>
-                                            <form action="{{ route('reservations.delete', $reservation->id) }}" method="POST" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn btn-outline-danger font-bold py-2 px-4 rounded ml-4 " type="submit" onclick="return confirm(' {{ __('本当にこの予約枠を削除しますか？') }}')">{{ __('削除') }}</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div id="calendar"></div>
                     </div>
                 </div>
             </div>
@@ -56,8 +30,66 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+<style>
+    .fc-day[data-reservable="0"] {
+        background-color: #eee !important;
+        cursor: not-allowed;
+    }
+</style>
 @stop
 
 @section('js')
-<script> console.log('Hi!'); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            events: [
+                @foreach($reservations as $reservation)
+                {
+                    title: '{{ $reservation->start_time->format('G:i') }}',
+                    start: '{{ $reservation->start_time }}',
+                    end: '{{ $reservation->end_time }}',
+                    url: '{{ route('reservations.show', $reservation->id) }}',
+                    reservable: '{{ $reservation->reservable }}'
+                },
+                @endforeach
+            ],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            buttonText: {
+                today: '今日',
+                month: '月',
+                week: '週',
+                day: '日'
+            },
+            editable: false,
+            eventLimit: true,
+            displayEventTime: true,
+            dayRender: function(date, cell) {
+                var reservable = false;
+                $('#calendar').fullCalendar('clientEvents', function(event) {
+                    var eventStart = moment(event.start).startOf('day');
+                    var eventEnd = moment(event.end).startOf('day');
+                    var current = moment(date).startOf('day');
+                    if (current.isBetween(eventStart, eventEnd) || current.isSame(eventStart) || current.isSame(eventEnd)) {
+                        if (event.reservable == 1) {
+                            reservable = true;
+                            return false; // Break the loop
+                        }
+                    }
+                });
+                if (!reservable) {
+                    $(cell).addClass('fc-day').attr('data-reservable', '0');
+                }
+            }
+        });
+    });
+</script>
 @stop
+    

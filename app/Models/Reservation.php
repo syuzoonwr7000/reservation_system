@@ -14,7 +14,7 @@ class Reservation extends Model
     //予約一覧
     public static function getAllReservations()
     {
-        return  static::paginate(Pagination::PER_PAGE);
+        return  static::all();
     }
     
     //カレント予約

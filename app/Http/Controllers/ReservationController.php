@@ -12,7 +12,15 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::getAllReservations();
-        return view('reservations.index',compact('reservations'));
+    
+        // start_timeとend_timeをDateTime型に変換してからビューに渡す
+        $reservations->transform(function ($reservation) {
+            $reservation->start_time = \Carbon\Carbon::parse($reservation->start_time);
+            $reservation->end_time = \Carbon\Carbon::parse($reservation->end_time);
+            return $reservation;
+        });
+    
+        return view('reservations.index', compact('reservations'));
     }
     
     public function show($id)
