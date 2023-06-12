@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\UserReservationController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,12 @@ Route::middleware(['auth', 'can:isUser'])->group(function () {
     });
     
     // ユーザー情報編集、退会
+    Route::prefix('auth')->group(function(){
+        Route::get('', [AuthController::class, 'show'])->name('auth.show');
+        Route::get('/edit', [AuthController::class, 'edit'])->name('auth.edit');
+        Route::post('/update', [AuthController::class, 'update'])->name('auth.update');
+        Route::delete('delete', [AuthController::class, 'delete'])->name('auth.delete');
+    });
 });
 
 require __DIR__.'/auth.php';
