@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h2>{{ __('予約確認')}}</h2>
+    <h1>{{ __('予約確認')}}</h1>
 @stop
 
 @section('content')

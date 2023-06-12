@@ -44,7 +44,7 @@ Route::middleware(['auth', 'can:isUser'])->group(function () {
         Route::get('', [UserReservationController::class, 'index'])->name('reservables.index');
         Route::get('/reserved_index', [UserReservationController::class, 'reservedIndex'])->name('reservables.resereved_index');
         Route::get('{reservation_id}/edit', [UserReservationController::class, 'edit'])->name('reservables.edit');
-        Route::post('{reservation_id}/regist', [UserReservationController::class, 'regist'])->name('reservables.store');
+        Route::post('{reservation_id}/regist', [UserReservationController::class, 'regist'])->name('reservables.regist');
         Route::get('{reservation_id}/show', [UserReservationController::class, 'show'])->name('reservables.show');
         Route::post('{reservation_id}/cancel', [UserReservationController::class, 'cancel'])->name('reservables.cancel');
     });

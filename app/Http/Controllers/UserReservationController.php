@@ -21,7 +21,7 @@ class UserReservationController extends Controller
         });
         
         return view('reservables.index',compact('reservations'));
-    }
+    } 
     
     public function reservedIndex()
     {
@@ -32,14 +32,27 @@ class UserReservationController extends Controller
          return view('reservables.reserved_index',compact('reserved_reservations'));
     }
     
-    public function edit()
+    public function edit($reservation_id)
     {
-        //
+        $user = Auth::user();
+        
+        $reserved_reservation = Reservation::findOrFail($reservation_id);
+       
+        return view('reservables.edit',compact('user','reserved_reservation'));
     }
     
-    public function regist()
+    public function regist($reservation_id)
     {
-        //
+        $user_id = Auth::id();
+         
+        $reserved_reservations = Reservation::where('user_id',$user_id)->get();
+        
+        Reservation::findOrFail($reservation_id)->update([
+            'user_id' => $user_id,
+            'reservable' => 0,
+            ]);
+            
+        return redirect()->route('reservables.resereved_index',compact('reserved_reservations'));
     }
     
     public function show($reservation_id)
