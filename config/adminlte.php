@@ -291,6 +291,28 @@ return [
 
     'menu' => [
         // Navbar items:
+        [
+            'text' => 'マイページ',
+            'url' => 'auth',
+            'icon' => 'fas fa-fw fa-user', // ユーザーアイコン
+            'role' => 'isUser', // 一般ユーザー権限が必要
+            'can' => 'isUser', // 同じく一般ユーザー権限が必要
+        ],
+        [
+            'text' => '予約確認',
+            'url'  => 'reservables/reserved_index',
+            'icon' => 'far fa-fw fa-calendar-check', // カレンダーチェックアイコン
+            'role' => 'isUser', // 一般ユーザー権限が必要
+            'can' => 'isUser', // 同じく一般ユーザー権限が必要
+        ],
+        [
+            'text' => 'カレンダー表示',
+            'url'  => 'reservables',
+            'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
+            'role' => 'isUser', // 一般ユーザー権限が必要
+            'can' => 'isUser', // 同じく一般ユーザー権限が必要
+        ]
+
         // [
         //     'type'         => 'navbar-search',
         //     'text'         => 'search',
@@ -318,17 +340,7 @@ return [
         //     'label'       => 4,
         //     'label_color' => 'success',
         // ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+        // ['header' => 'account_settings'],
         // [
         //     'text'    => 'multilevel',
         //     'icon'    => 'fas fa-fw fa-share',
@@ -368,16 +380,16 @@ return [
         //     ],
         // ],
         // ['header' => 'labels'],
-        [
-            'text'       => '予約一覧',
-            // 'icon_color' => 'red',
-            'url'        => 'reservations',
-        ],
-        [
-            'text'       => 'ユーザー一覧',
-            // 'icon_color' => 'yellow',
-            'url'        => 'users',
-        ],
+        // [
+        //     'text'       => '予約一覧',
+        //     // 'icon_color' => 'red',
+        //     'url'        => 'reservations',
+        // ],
+        // [
+        //     'text'       => 'ユーザー一覧',
+        //     // 'icon_color' => 'yellow',
+        //     'url'        => 'users',
+        // ],
         // [
         //     'text'       => 'information',
         //     'icon_color' => 'cyan',
