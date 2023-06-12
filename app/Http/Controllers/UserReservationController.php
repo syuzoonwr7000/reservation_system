@@ -11,7 +11,7 @@ class UserReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::getAllReservations();
+        $reservations = Reservation::getReservableReservations();
     
         // start_timeとend_timeをDateTime型に変換してからビューに渡す
         $reservations->transform(function ($reservation) {
@@ -37,22 +37,32 @@ class UserReservationController extends Controller
         $user = Auth::user();
         
         $reserved_reservation = Reservation::findOrFail($reservation_id);
-       
-        return view('reservables.edit',compact('user','reserved_reservation'));
+        
+        if ($reserved_reservation->reservable == 0) {
+            return redirect()->route('reservables.index')->with('error', '申し訳ありません、ご指定の時間の予約は既に埋まっています');
+        }
+        
+        return view('reservables.edit', compact('user', 'reserved_reservation'));
     }
     
     public function regist($reservation_id)
     {
         $user_id = Auth::id();
-         
-        $reserved_reservations = Reservation::where('user_id',$user_id)->get();
         
-        Reservation::findOrFail($reservation_id)->update([
+        $reserved_reservations = Reservation::where('user_id', $user_id)->get();
+        
+        $reserved_reservation = Reservation::findOrFail($reservation_id);
+        
+        if ($reserved_reservation->reservable == 0) {
+            return redirect()->route('reservables.index')->with('error', '申し訳ありません、ご指定の時間の予約は既に埋まっています');
+        }
+        
+        $reserved_reservation->update([
             'user_id' => $user_id,
             'reservable' => 0,
-            ]);
-            
-        return redirect()->route('reservables.resereved_index',compact('reserved_reservations'));
+        ]);
+        
+        return redirect()->route('reservables.resereved_index', compact('reserved_reservations'));
     }
     
     public function show($reservation_id)
@@ -60,22 +70,31 @@ class UserReservationController extends Controller
         $user = Auth::user();
         
         $reserved_reservation = Reservation::findOrFail($reservation_id);
-       
-        return view('reservables.show',compact('user','reserved_reservation'));
         
+        if ($user->id !== $reserved_reservation->user_id) {
+            return redirect()->route('reservables.resereved_index')->with('error', 'アクセス権限がありません');
+        }
+       
+        return view('reservables.show', compact('user', 'reserved_reservation'));
     }
     
     public function cancel($reservation_id)
     {
         $user_id = Auth::id();
-         
-        $reserved_reservations = Reservation::where('user_id',$user_id)->get();
         
-        Reservation::findOrFail($reservation_id)->update([
+        $reserved_reservation = Reservation::findOrFail($reservation_id);
+        
+        if ($reserved_reservation->user_id !== $user_id) {
+            return redirect()->route('reservables.resereved_index')->with('error', 'アクセス権限がありません');
+        }
+        
+        $reserved_reservations = Reservation::where('user_id', $user_id)->get();
+        
+        $reserved_reservation->update([
             'user_id' => '0',
             'reservable' => 1,
-            ]);
+        ]);
             
-        return redirect()->route('reservables.resereved_index',compact('reserved_reservations'));
+        return redirect()->route('reservables.resereved_index', compact('reserved_reservations'));
     }
 }

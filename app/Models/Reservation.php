@@ -17,9 +17,9 @@ class Reservation extends Model
     ];
     
     //予約一覧
-    public static function getAllReservations()
+    public static function getReservableReservations()
     {
-        return  static::all();
+        return  static::where('reservable',1)->get();
     }
     
     //カレント予約

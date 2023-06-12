@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\UserReservationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -37,7 +38,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [UserController::class, 'index']);//ログイン後直後のルーティング
+    Route::get('/', [UserReservationController::class, 'index']);//ログイン後直後のルーティング
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
