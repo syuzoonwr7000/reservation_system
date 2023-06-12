@@ -11,6 +11,11 @@ class Reservation extends Model
 {
     use HasFactory,softDeletes;
     
+    protected $fillable = [
+         'user_id', 
+         'reservable',
+    ];
+    
     //予約一覧
     public static function getAllReservations()
     {

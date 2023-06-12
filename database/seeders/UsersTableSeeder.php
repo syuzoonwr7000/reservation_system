@@ -33,8 +33,17 @@ class UsersTableSeeder extends Seeder
         ]);
         
         User::insert([
-            'name' => '一般ユーザー',
-            'email' => 'user@email.com',
+            'name' => '一般ユーザーA',
+            'email' => 'usera@email.com',
+            'password' => password_hash('12341234', PASSWORD_DEFAULT),
+            'role' => 3,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        
+        User::insert([
+            'name' => '一般ユーザーB',
+            'email' => 'userb@email.com',
             'password' => password_hash('12341234', PASSWORD_DEFAULT),
             'role' => 3,
             'created_at' => now(),
