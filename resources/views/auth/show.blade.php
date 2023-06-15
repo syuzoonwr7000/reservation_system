@@ -25,10 +25,12 @@
                     </table>
                     <div class="flex items-center justify-end mt-4 mb-4 mr-4 text-right">
                         <a href="{{ route('auth.edit') }}"><button class="btn btn-outline-success font-bold py-2 px-4 rounded ml-4">{{ __('プロフィール編集') }}</button></a>
+                        @if(auth()->user()->role == 3)
                         <form action="{{ route('auth.delete') }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn btn-outline-danger font-bold py-2 px-4 rounded ml-4 " type="submit" onclick="return confirm(' {{ __('本当に退会しますか？') }}')">{{ __('退会') }}</button>
+                        @endif
                         </form>
                     </div>
                 </div>

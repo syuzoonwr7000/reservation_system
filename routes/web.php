@@ -28,30 +28,30 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 // 開発者用
-// Route::middleware(['auth', 'can:isDeveloper'])->group(function () {
-//     //ユーザー管理
-//     Route::prefix('users')->group(function(){
-//         Route::get('', [UserController::class, 'index'])->name('users.index');
-//         Route::get('{id}/show', [UserController::class, 'show'])->name('users.show');
-//         Route::get('create', [UserController::class, 'create'])->name('users.create');
-//         Route::post('create', [UserController::class, 'store'])->name('users.store');
-//         Route::get('{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-//         Route::post('{id}/edit', [UserController::class, 'update'])->name('users.update');
-//         Route::delete('{id}', [UserController::class, 'delete'])->name('users.delete');
-//     });
+Route::middleware(['auth', 'can:isDeveloper'])->group(function () {
+    //ユーザー管理
+    Route::prefix('users')->group(function(){
+        Route::get('', [UserController::class, 'index'])->name('users.index');
+        Route::get('{id}/show', [UserController::class, 'show'])->name('users.show');
+        Route::get('create', [UserController::class, 'create'])->name('users.create');
+        Route::post('create', [UserController::class, 'store'])->name('users.store');
+        Route::get('{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::post('{id}/edit', [UserController::class, 'update'])->name('users.update');
+        Route::delete('{id}', [UserController::class, 'delete'])->name('users.delete');
+    });
         
-//         //予約管理
-//     Route::prefix('reservations')->group(function(){
-//         Route::get('', [ReservationController::class, 'index'])->name('reservations.index');
-//         Route::get('/reservable_index', [ReservationController::class, 'reservableIndex'])->name('reservations.reserevable_index');
-//         Route::get('{id}/show', [ReservationController::class, 'show'])->name('reservations.show');
-//         Route::get('create', [ReservationController::class, 'create'])->name('reservations.create');
-//         Route::post('create', [ReservationController::class, 'store'])->name('reservations.store');
-//         Route::get('{id}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
-//         Route::post('{id}/edit', [ReservationController::class, 'update'])->name('reservations.update');
-//         Route::delete('{id}', [ReservationController::class, 'delete'])->name('reservations.delete');
-//     });
-// });
+        //予約管理
+    Route::prefix('reservations')->group(function(){
+        Route::get('', [ReservationController::class, 'index'])->name('reservations.index');
+        Route::get('/reservable_index', [ReservationController::class, 'reservableIndex'])->name('reservations.reserevable_index');
+        Route::get('{id}/show', [ReservationController::class, 'show'])->name('reservations.show');
+        Route::get('create', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::post('create', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::get('{id}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
+        Route::post('{id}/edit', [ReservationController::class, 'update'])->name('reservations.update');
+        Route::delete('{id}', [ReservationController::class, 'delete'])->name('reservations.delete');
+    });
+});
 
 // 一般管理者用
 Route::middleware(['auth', 'can:isAdmin'])->group(function () {
@@ -68,7 +68,7 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     });
     
     // ユーザー情報、照会、編集
-    Route::prefix('auth')->group(function(){
+    Route::prefix('admin')->group(function(){
         Route::get('', [AuthController::class, 'show'])->name('auth.show');
         Route::get('/edit', [AuthController::class, 'edit'])->name('auth.edit');
         Route::post('/update', [AuthController::class, 'update'])->name('auth.update');

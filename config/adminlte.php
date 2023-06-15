@@ -296,22 +296,44 @@ return [
             'url' => 'auth',
             'icon' => 'fas fa-fw fa-user', // ユーザーアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
-            'can' => 'isUser', // 同じく一般ユーザー権限が必要
+            'can' => 'isUser', // 一般ユーザー権限が必要
         ],
         [
             'text' => '予約確認',
             'url'  => 'reservables/reserved_index',
             'icon' => 'far fa-fw fa-calendar-check', // カレンダーチェックアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
-            'can' => 'isUser', // 同じく一般ユーザー権限が必要
+            'can' => 'isUser', // 一般ユーザー権限が必要
         ],
         [
             'text' => 'カレンダー表示',
             'url'  => 'reservables',
             'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
-            'can' => 'isUser', // 同じく一般ユーザー権限が必要
-        ]
+            'can' => 'isUser', // 一般ユーザー権限が必要
+        ],
+        
+        [
+            'text' => 'マイページ',
+            'url' => 'admin',
+            'icon' => 'fas fa-fw fa-user', // ユーザーアイコン
+            'role' => 'isAdmin', // 一般管理者権限が必要
+            'can' => 'isAdmin', // 一般管理者権限が必要
+        ],
+        [
+            'text' => '予約一覧',
+            'url'  => 'reservations',
+            'icon' => 'far fa-fw fa-calendar-check', // カレンダーチェックアイコン
+            'role' => 'isAdmin', // 一般管理者権限が必要
+            'can' => 'isAdmin', // 一般管理者権限が必要
+        ],
+        [
+            'text' => 'カレンダー表示',
+            'url'  => 'reservations/reservable_index',
+            'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
+            'role' => 'isAdmin', // 一般管理者権限が必要
+            'can' => 'isAdmin', // 一般管理者権限が必要
+        ],
 
         // [
         //     'type'         => 'navbar-search',
