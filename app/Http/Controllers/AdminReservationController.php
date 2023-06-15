@@ -7,9 +7,9 @@ use App\Models\Reservation;
 use App\Http\Requests\ReservationStoreRequest;
 use Carbon\Carbon;
 
-class ReservationController extends Controller
+class AdminReservationController extends Controller
 {
-    public function reservableindex()//予約可能日一覧
+    public function reservableIndex()//予約可能日一覧
     {
         $reservations = Reservation::getReservableReservations();
     
@@ -37,16 +37,6 @@ class ReservationController extends Controller
         return view('reservations.reserved_index', compact('reservations'));
     }
     
-    public function show($id)
-    {
-        $reservation = Reservation::getReservation($id);
-        if (!$reservation) {
-            return redirect()->route('reservations.index')->with('error', '存在しない予約枠です。');
-        }
-        
-        return view('reservations.show', compact('reservation'));
-    }
-    
     public function create()
     {
         return view('reservations.create');
@@ -62,7 +52,7 @@ class ReservationController extends Controller
             'end_time' => $endDateTime,
         ]);
     
-        return redirect()->route('reservations.index');
+        return redirect()->route('reservations.reservable_index');
     }
     
     public function edit($id)
@@ -88,15 +78,29 @@ class ReservationController extends Controller
         return redirect()->route('users.index');
     }
     
+    public function cancel($reservation_id)
+    {
+        $reserved_reservations = Reservation::getReservedReservations();
+        
+        $reserved_reservation = Reservation::findOrFail($reservation_id);
+        
+        $reserved_reservation->update([
+            'user_id' => '0',
+            'reservable' => 1,
+        ]);
+            
+        return redirect()->route('reservations.index', compact('reserved_reservations'));
+    }
+    
     public function delete($id)
     {
-        $user = User::getUser($id);
+        $reservation = Reservation::getReservation($id);
         
-        if(!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
+        if(!$reservation) {
+            return redirect()->route('reservations.reserbable_index')->with('error', 'User not found.');
         }
         
-        $user->delete();
-        return redirect()->route('users.index');
+        $reservation->delete();
+        return redirect()->route('reservations.reservable_index');
     }
 }

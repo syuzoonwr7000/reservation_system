@@ -9,9 +9,6 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\UserReservationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -38,7 +35,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [UserReservationController::class, 'index']);//ログイン後直後のルーティング
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -57,26 +53,4 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-                
-    //ユーザー管理
-    Route::prefix('users')->group(function(){
-        Route::get('', [UserController::class, 'index'])->name('users.index');
-        Route::get('{id}/show', [UserController::class, 'show'])->name('users.show');
-        Route::get('create', [UserController::class, 'create'])->name('users.create');
-        Route::post('create', [UserController::class, 'store'])->name('users.store');
-        Route::get('{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-        Route::post('{id}/edit', [UserController::class, 'update'])->name('users.update');
-        Route::delete('{id}', [UserController::class, 'delete'])->name('users.delete');
-    });
-    
-    //予約管理
-    Route::prefix('reservations')->group(function(){
-        Route::get('', [ReservationController::class, 'index'])->name('reservations.index');
-        Route::get('{id}/show', [ReservationController::class, 'show'])->name('reservations.show');
-        Route::get('create', [ReservationController::class, 'create'])->name('reservations.create');
-        Route::post('create', [ReservationController::class, 'store'])->name('reservations.store');
-        Route::get('{id}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
-        Route::post('{id}/edit', [ReservationController::class, 'update'])->name('reservations.update');
-        Route::delete('{id}', [ReservationController::class, 'delete'])->name('reservations.delete');
-    });
 });
