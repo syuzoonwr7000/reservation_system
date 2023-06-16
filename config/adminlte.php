@@ -293,21 +293,21 @@ return [
         // Navbar items:
         [
             'text' => 'マイページ',
-            'url' => 'auth',
+            'url' => 'user',
             'icon' => 'fas fa-fw fa-user', // ユーザーアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
             'can' => 'isUser', // 一般ユーザー権限が必要
         ],
         [
             'text' => '予約確認',
-            'url'  => 'reservables/reserved_index',
+            'url'  => 'user/reservations/reserved_index',
             'icon' => 'far fa-fw fa-calendar-check', // カレンダーチェックアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
             'can' => 'isUser', // 一般ユーザー権限が必要
         ],
         [
             'text' => 'カレンダー表示',
-            'url'  => 'reservables',
+            'url'  => 'user/reservations/reservable_index',
             'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
             'role' => 'isUser', // 一般ユーザー権限が必要
             'can' => 'isUser', // 一般ユーザー権限が必要
@@ -322,14 +322,14 @@ return [
         ],
         [
             'text' => '予約一覧',
-            'url'  => 'reservations',
+            'url'  => 'admin/reservations/reserved_index',
             'icon' => 'far fa-fw fa-calendar-check', // カレンダーチェックアイコン
             'role' => 'isAdmin', // 一般管理者権限が必要
             'can' => 'isAdmin', // 一般管理者権限が必要
         ],
         [
             'text' => 'カレンダー表示',
-            'url'  => 'reservations/reservable_index',
+            'url'  => 'admin/reservations/reservable_index',
             'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
             'role' => 'isAdmin', // 一般管理者権限が必要
             'can' => 'isAdmin', // 一般管理者権限が必要

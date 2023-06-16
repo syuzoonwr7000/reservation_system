@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>{{ __('予約可能日一覧') }}</h1>
+    <h1>{{ __('予約一覧') }}</h1>
 @stop
 
 @section('content')
@@ -22,12 +22,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($reservations as $reservation)
+                                @foreach($reserved_reservations as $reserved_reservation)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $reservation->start_time }}</td>
+                                    <td class="border px-4 py-2">{{ $reserved_reservation->start_time }}</td>
                                     <td class="border px-4 py-2">
                                         <div class="flex items-center justify-end mt-4 mb-4">
-                                            <a href="{{ route('reservables.edit', $reservation->id) }}"><button class="btn btn-outline-primary font-bold py-2 px-4 rounded ml-4">{{ __('予約') }}</button></a>
+                                            <a href="{{ route('user.reservations.show', $reserved_reservation->id) }}"><button class="btn btn-outline-primary  font-bold py-2 px-4 rounded ml-4">{{ __('確認、キャンセル') }}</button></a>
                                         </div>
                                     </td>
                                 </tr>

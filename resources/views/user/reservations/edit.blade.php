@@ -28,7 +28,7 @@
                         </tbody>
                     </table>
                     <div class="flex items-center justify-end mt-4 mb-4 mr-4 text-right">
-                        <form action="{{ route('reservables.regist', $reserved_reservation->id) }}" method="POST" style="display: inline-block;">
+                        <form action="{{ route('user.reservations.regist', $reserved_reservation->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         <button class="btn btn-outline-primary font-bold py-2 px-4 rounded ml-4 " type="submit" >{{ __('予約する') }}</button>
                         </form>

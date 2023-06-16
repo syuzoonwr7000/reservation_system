@@ -20,10 +20,10 @@ class AdminReservationController extends Controller
             return $reservation;
         });
     
-        return view('reservations.reservable_index', compact('reservations'));
+        return view('admin.reservations.reservable_index', compact('reservations'));
     }
     
-    public function index()//予約済み一覧
+    public function reservedIndex()//予約済み一覧
     {
         $reservations = Reservation::getReservedReservations();
     
@@ -34,12 +34,12 @@ class AdminReservationController extends Controller
             return $reservation;
         });
     
-        return view('reservations.reserved_index', compact('reservations'));
+        return view('admin.reservations.reserved_index', compact('reservations'));
     }
     
     public function create()
     {
-        return view('reservations.create');
+        return view('admin.reservations.create');
     }
     
     public function store(ReservationStoreRequest $request)
@@ -52,7 +52,7 @@ class AdminReservationController extends Controller
             'end_time' => $endDateTime,
         ]);
     
-        return redirect()->route('reservations.reservable_index');
+        return redirect()->route('admin.reservations.reservable_index');
     }
     
     public function edit($id)
@@ -89,7 +89,7 @@ class AdminReservationController extends Controller
             'reservable' => 1,
         ]);
             
-        return redirect()->route('reservations.index', compact('reserved_reservations'));
+        return redirect()->route('admin.reservations.reserved_index', compact('reserved_reservations'));
     }
     
     public function delete($id)
@@ -97,10 +97,10 @@ class AdminReservationController extends Controller
         $reservation = Reservation::getReservation($id);
         
         if(!$reservation) {
-            return redirect()->route('reservations.reserbable_index')->with('error', 'User not found.');
+            return redirect()->route('admin.reservations.reserbable_index')->with('error', 'User not found.');
         }
         
         $reservation->delete();
-        return redirect()->route('reservations.reservable_index');
+        return redirect()->route('admin.reservations.reservable_index');
     }
 }

@@ -31,8 +31,18 @@ class AuthController extends Controller
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ]);
-            
-        return redirect()->route('auth.show');
+        
+        switch($user->role){
+            case 1:
+                return redirect()->route('developer.show');
+                break;
+            case 2:
+                return redirect()->route('admin.show');
+                break;
+            case 3:
+                return redirect()->route('user.show');
+                break;
+        }
     }
     
     public function delete()

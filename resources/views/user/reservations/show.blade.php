@@ -28,7 +28,7 @@
                         </tbody>
                     </table>
                     <div class="flex items-center justify-end mt-4 mb-4 mr-4 text-right">
-                        <form action="{{ route('reservables.cancel', $reserved_reservation->id) }}" method="POST" style="display: inline-block;">
+                        <form action="{{ route('user.reservations.cancel', $reserved_reservation->id) }}" method="POST" style="display: inline-block;">
                         @csrf
                         <button class="btn btn-outline-danger font-bold py-2 px-4 rounded ml-4 " type="submit" onclick="return confirm(' {{ __('この予約をキャンセルします、よろしいでしょうか？') }}')">{{ __('キャンセル') }}</button>
                         </form>

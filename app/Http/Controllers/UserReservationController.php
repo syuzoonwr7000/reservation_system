@@ -9,7 +9,7 @@ use App\Models\Reservation;
 
 class UserReservationController extends Controller
 {
-    public function index()
+    public function reservableIndex()
     {
         $reservations = Reservation::getReservableReservations();
     
@@ -20,7 +20,7 @@ class UserReservationController extends Controller
             return $reservation;
         });
         
-        return view('reservables.index',compact('reservations'));
+        return view('user.reservations.reservable_index',compact('reservations'));
     } 
     
     public function reservedIndex()
@@ -29,7 +29,7 @@ class UserReservationController extends Controller
          
          $reserved_reservations = Reservation::where('user_id',$user_id)->get();
          
-         return view('reservables.reserved_index',compact('reserved_reservations'));
+         return view('user.reservations.reserved_index',compact('reserved_reservations'));
     }
     
     public function edit($reservation_id)
@@ -42,7 +42,7 @@ class UserReservationController extends Controller
             return redirect()->route('reservables.index')->with('error', '申し訳ありません、ご指定の時間の予約は既に埋まっています');
         }
         
-        return view('reservables.edit', compact('user', 'reserved_reservation'));
+        return view('user.reservations.edit', compact('user', 'reserved_reservation'));
     }
     
     public function regist($reservation_id)
@@ -62,7 +62,7 @@ class UserReservationController extends Controller
             'reservable' => 0,
         ]);
         
-        return redirect()->route('reservables.resereved_index', compact('reserved_reservations'));
+        return redirect()->route('user.reservations.resereved_index', compact('reserved_reservations'));
     }
     
     public function show($reservation_id)
@@ -75,7 +75,7 @@ class UserReservationController extends Controller
             return redirect()->route('reservables.resereved_index')->with('error', 'アクセス権限がありません');
         }
        
-        return view('reservables.show', compact('user', 'reserved_reservation'));
+        return view('user.reservations.show', compact('user', 'reserved_reservation'));
     }
     
     public function cancel($reservation_id)
@@ -95,6 +95,6 @@ class UserReservationController extends Controller
             'reservable' => 1,
         ]);
             
-        return redirect()->route('reservables.resereved_index', compact('reserved_reservations'));
+        return redirect()->route('user.reservations.resereved_index', compact('reserved_reservations'));
     }
 }

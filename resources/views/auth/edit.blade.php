@@ -20,9 +20,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('auth.update') }}">
+                    @if(auth()->user()->role == 3)
+                    <form method="POST" action="{{ route('user.update') }}">
+                    @elseif(auth()->user()->role == 2)
+                    <form method="POST" action="{{ route('admin.update') }}">
+                    @endif
                         @csrf
-
                         <div class="form-group">
                             <label for="name">{{ __('User Name') }}</label>
                             <input id="name" class="form-control" type="text" name="name" value="{{ old('name',$user->name) }}" required autofocus />
