@@ -48,4 +48,10 @@ class Reservation extends Model
       return $this->belongsTo(User::class,'user_id');
     }
     
+    //売上リレーション
+    public function parent_sales()
+    {
+      return $this->belongsTo(Sales::class,'sales_id');
+    }
+    
 }

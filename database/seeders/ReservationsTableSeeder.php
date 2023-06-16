@@ -15,7 +15,7 @@ class ReservationsTableSeeder extends Seeder
      */
     public function run()
     {
-        $start_date = Carbon::create(2023, 5, 1); // 開始日
+        $start_date = Carbon::create(2023, 6, 1); // 開始日
         $end_date = Carbon::create(2025, 12, 31); // 終了日
 
         $current_date = $start_date;
