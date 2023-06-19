@@ -10,42 +10,37 @@
 @if(session('error'))
 <div class="alert alert-danger">{{ __(session('error')) }}</div>
 @endif
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body p-0">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2">{{ __('予約日時') }}</th>
-                                    <th class="px-4 py-2">{{ __('お名前') }}</th>
-                                    <th class="px-4 py-2">{{ __('メールアドレス') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($reservations as $reservation)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $reservation->start_time }}</td>
-                                    <td class="border px-4 py-2">{{ $reservation->parent_user->name }}</td>
-                                    <td class="border px-4 py-2">{{ $reservation->parent_user->email }}</td>
-                                    <td class="border px-4 py-2">
-                                        <div class="flex items-center justify-content-center mt-4 mb-4">
-                                            <form action="{{ route('admin.reservations.cancel', $reservation->id) }}" method="POST" style="display: inline-block;">
-                                            @csrf
-                                            <button class="btn btn btn-outline-danger font-bold py-2 px-4 rounded ml-4 " type="submit" onclick="return confirm(' {{ __('本当にこの予約をキャンセルしますか？') }}')">{{ __('キャンセル') }}</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+@foreach($reservations_by_dates as $date => $reservations)
+    <div class="card">
+        <div class="card-body" data-toggle="collapse" data-target="#reservations-{{ $date }}" aria-expanded="false" aria-controls="reservations-{{ $date }}">
+            <h5 class="card-title">{{ $date }}</h5>
+            <p class="card-text">{{ $reservations->count() }} 件</p>
+        </div>
+        <div id="reservations-{{ $date }}" class="collapse">
+            <ul class="list-group">
+                @foreach($reservations as $reservation)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            {{ $reservation->start_time->format('G:i') }} {{ $reservation->parent_user->name }}様
+                        </div>
+                        <div class="flex items-center justify-content-center">
+                            <form action="{{ route('admin.reservations.add_reservation_to_sales', $reservation->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @if(\Carbon\Carbon::parse($reservation->start_time)->isPast())
+                                    <button class="btn btn-outline-primary font-bold py-2 px-4 rounded ml-4" type="submit">{{ __('施術済み') }}</button>
+                                @endif
+                            </form>
+                            <form action="{{ route('admin.reservations.cancel', $reservation->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <button class="btn btn-outline-danger font-bold py-2 px-4 rounded ml-4" type="submit" onclick="return confirm('{{ __('本当にこの予約をキャンセルしますか？') }}')">{{ __('キャンセル') }}</button>
+                            </form>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
+@endforeach
 @stop
 
 @section('css')

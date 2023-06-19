@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Consts\Pagination;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -19,17 +21,13 @@ class Reservation extends Model
     // 予約可能日一覧
     public static function getReservableReservations()
     {
-        return static::where('reservable', 1)
-            ->orderBy('start_time', 'asc')
-            ->get();
+        return static::where('reservable', 1)->where('start_time', '>', Carbon::now())->orderBy('start_time', 'asc')->get();
     }
     
     // 予約済み一覧
     public static function getReservedReservations()
     {
-        return static::where('reservable', 0)
-            ->orderBy('start_time', 'asc')
-            ->get();
+        return static::where('reservable', 0)->where('sales_id', 0)->orderBy('start_time', 'asc')->get();
     }
 
     //カレント予約

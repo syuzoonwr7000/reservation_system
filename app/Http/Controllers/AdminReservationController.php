@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Sales;
 use App\Http\Requests\ReservationStoreRequest;
 use Carbon\Carbon;
 
@@ -33,8 +34,29 @@ class AdminReservationController extends Controller
             $reservation->end_time = \Carbon\Carbon::parse($reservation->end_time);
             return $reservation;
         });
+        
+        $reservations_by_dates = $reservations->groupBy(function ($reservation) {
+            return $reservation->start_time->format('Y-m-d');
+        });
     
-        return view('admin.reservations.reserved_index', compact('reservations'));
+        return view('admin.reservations.reserved_index', compact('reservations','reservations_by_dates'));
+    }
+    
+    // 施術済みの予約を売上に登録する用
+    public function addReservationToSales($id)
+    {
+        $reservation = Reservation::getReservation($id);
+        
+        if(!$reservation) {
+            return redirect()->route('admin.reservations.reserbable_index')->with('error', 'Rservation not found.');
+        }
+        
+        $sales = Sales::whereDate('sales_date', Carbon::parse($reservation->start_time)->toDateString())->first();
+        
+        $reservation->sales_id = $sales->id;
+        $reservation->save();
+        
+        return redirect()->route('admin.reservations.reserved_index');
     }
     
     public function create()
@@ -53,29 +75,6 @@ class AdminReservationController extends Controller
         ]);
     
         return redirect()->route('admin.reservations.reservable_index');
-    }
-    
-    public function edit($id)
-    {
-        $user = User::getUser($id);
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
-        }
-        
-        return view('users.edit', compact('user'));
-    }
-    
-    public function update(UserRequest $request,$id)
-    {
-        $user = User::getUser($id);
-        $user->update([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'role' => $request['role'],
-        ]);
-            
-        return redirect()->route('users.index');
     }
     
     public function cancel($reservation_id)

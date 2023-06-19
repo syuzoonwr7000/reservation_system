@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminReservationController;
+use App\Http\Controllers\AdminSalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,23 +64,34 @@ Route::middleware(['auth', 'can:isDeveloper'])->group(function () {
 
 // 一般管理者用
 Route::middleware(['auth', 'can:isAdmin'])->group(function () {
-    //予約管理、予約可能日一覧、予約済み一覧、登録、編集、キャンセル
+    //予約管理、予約可能日一覧、登録、予約済み一覧、登録、キャンセル
     Route::prefix('admin/reservations')->group(function(){
         Route::get('/reserved_index', [AdminReservationController::class, 'reservedIndex'])->name('admin.reservations.reserved_index');
         Route::get('/reservable_index', [AdminReservationController::class, 'reservableIndex'])->name('admin.reservations.reservable_index');
         Route::get('/create', [AdminReservationController::class, 'create'])->name('admin.reservations.create');
         Route::post('/create', [AdminReservationController::class, 'store'])->name('admin.reservations.store');
-        Route::get('{id}/edit', [AdminReservationController::class, 'edit'])->name('admin.reservations.edit');
-        Route::post('{id}/edit', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
+        // 施術済みを売上に反映させる用
+        Route::post('{id}/add_reservation_to_sales', [AdminReservationController::class, 'addReservationToSales'])->name('admin.reservations.add_reservation_to_sales');
         Route::post('{reservation_id}/cancel', [AdminReservationController::class, 'cancel'])->name('admin.reservations.cancel');
         Route::delete('{id}', [AdminReservationController::class, 'delete'])->name('admin.reservations.delete');
     });
     
-    // ユーザー情報、照会、編集
+    // 自身の情報、照会、編集
     Route::prefix('admin')->group(function(){
         Route::get('', [AuthController::class, 'show'])->name('admin.show');
         Route::get('/edit', [AuthController::class, 'edit'])->name('admin.edit');
         Route::post('/update', [AuthController::class, 'update'])->name('admin.update');
+    });
+    
+    //売上管理
+    Route::prefix('admin/sales')->group(function(){
+        Route::get('', [AdminSalesController::class, 'index'])->name('admin.sales.index');
+        Route::get('{id}/show', [AdminSalesController::class, 'show'])->name('admin.sales.show');
+        Route::get('/create', [AdminSalesController::class, 'create'])->name('admin.sales.create');
+        Route::post('/create', [AdminSalesController::class, 'store'])->name('admin.sales.store');
+        Route::get('{id}/edit', [AdminSalesController::class, 'edit'])->name('admin.sales.edit');
+        Route::post('{id}/edit', [AdminSalesController::class, 'update'])->name('admin.sales.update');
+        Route::delete('{id}', [AdminSalesController::class, 'delete'])->name('admin.sales.delete');
     });
 });
 

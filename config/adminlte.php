@@ -328,6 +328,13 @@ return [
             'can' => 'isAdmin', // 一般管理者権限が必要
         ],
         [
+            'text' => '売上一覧',
+            'url'  => 'admin/sales',
+            'icon' => 'fas fa-fw fa-calculator', // 電卓アイコン
+            'role' => 'isAdmin', // 一般管理者権限が必要
+            'can' => 'isAdmin', // 一般管理者権限が必要
+        ],
+        [
             'text' => 'カレンダー表示',
             'url'  => 'admin/reservations/reservable_index',
             'icon' => 'far fa-fw fa-calendar-alt', // カレンダーアイコン
